@@ -1,0 +1,6 @@
+@HarunProjectAPI_HostAddress = http://localhost:5027
+
+GET {{HarunProjectAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
