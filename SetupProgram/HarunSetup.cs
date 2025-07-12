@@ -12,11 +12,6 @@ namespace HarunProjectAPI.SetupProgram
         {
             var builder = WebApplication.CreateBuilder(configuration.Arguments);
 
-            // Add services
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
             var connectionString = builder.Configuration.GetConnectionString(configuration.ConnectionString); 
             var services=builder.Services;
 
@@ -31,6 +26,11 @@ namespace HarunProjectAPI.SetupProgram
 
         private static void AddServices(IServiceCollection services,string? connectionString,string corsPolicy)
         {
+
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
             services.AddDbContext<DBContext.DBContext>(options =>
             {
                 options.UseSqlServer(connectionString);

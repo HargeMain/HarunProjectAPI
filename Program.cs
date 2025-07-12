@@ -7,7 +7,6 @@ namespace HarunProjectAPI
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
             HarunSetup.BuildApp(new MyConfiguration
             {
                 Arguments = args,
