@@ -1,5 +1,7 @@
 ﻿using HarunProjectAPI.DBContext;
+using HarunProjectAPI.Services.Default;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HarunProjectAPI.SetupProgram
 {
@@ -15,28 +17,36 @@ namespace HarunProjectAPI.SetupProgram
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var connectionString = builder.Configuration.GetConnectionString(configuration.ConnectionString);  
+            var connectionString = builder.Configuration.GetConnectionString(configuration.ConnectionString); 
+            var services=builder.Services;
+
+            //Add services to the DI container
+            AddServices(services, connectionString, configuration.CorsPolicy);
+
+            var app = builder.Build();
+
+            SetupPipeline(app, configuration.CorsPolicy);
+        }
 
 
-            builder.Services.AddDbContext<DBContext.DBContext>(options =>
+        private static void AddServices(IServiceCollection services,string? connectionString,string corsPolicy)
+        {
+            services.AddDbContext<DBContext.DBContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
 
-            builder.Services.AddCors(opt =>
+            services.AddCors(opt =>
             {
-                opt.AddPolicy(configuration.CorsPolicy, policy =>
+                opt.AddPolicy(corsPolicy, policy =>
                 {
                     policy.AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowAnyOrigin();
                 });
             });
-
-            var app = builder.Build();
-
-            SetupPipeline(app, configuration.CorsPolicy);
-        }
+            services.AddScoped(typeof(IDefaultService<>), typeof(DefaultService<>));
+        }   
 
         private static void SetupPipeline(WebApplication app,string corsPolicy)
         {

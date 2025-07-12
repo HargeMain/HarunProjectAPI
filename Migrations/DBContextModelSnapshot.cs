@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarunProjectAPI.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(DBContext.DBContext))]
     partial class DBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

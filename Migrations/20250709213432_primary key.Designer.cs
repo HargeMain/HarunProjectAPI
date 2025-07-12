@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarunProjectAPI.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(DBContext.DBContext))]
     [Migration("20250709213432_primary key")]
     partial class primarykey
     {
